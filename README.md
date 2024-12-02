@@ -51,3 +51,13 @@ classDiagram
         wipe_grid()
     }
 ```
+## arbeidsoppgaver 
+- Alexander
+    - Lage klassen "grid"
+
+- Ulrik
+    - Lage klassediagram for game
+    - Lage klassen "game"
+
+- Dina
+    - Lage klassen "cell"
