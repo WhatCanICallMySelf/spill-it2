@@ -7,7 +7,7 @@
 - Flappy bird
 
 ## Minesweeper
-Målet med spillet er å få vekk minene i et minefelt uten at de sprenger. Dette kan man få til ved å se på tallene i minefeltet som viser hvor mange miner som er rundt denne ruten. med denne informasjonen skal det være mulig å kunne unngå å sprenge minene. 
+Målet med spillet er å få vekk minene i et minefelt uten at de sprenger. Dette kan man få til ved å se på tallene i minefeltet som viser hvor mange miner som er rundt denne ruten. Med denne informasjonen skal det være mulig å kunne unngå å sprenge minene. 
 
 ### Flowchart
 ```mermaid
@@ -51,7 +51,7 @@ classDiagram
         wipe_grid()
     }
 ```
-## arbeidsoppgaver 
+## Arbeidsoppgaver 
 - Alexander
     - Lage klassen "grid"
 
