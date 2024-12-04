@@ -7,10 +7,9 @@ class Cell:
 
 # self string for objects in class Cell
     def __str__(self):
-        if self._has_bomb:
-            return f"This cell is a bomb. It has {self._neighbour_bombs} surronding bombs"
-        else:
-            return f"This cell is not a bomb. It has {self._neighbour_bombs} surronding bombs"
+        if self._flagged:
+            return "[f]"
+        return f"[{self._neighbour_bombs}]"
         
 # Turns a cell into a bomb        
     def set_bomb(self, bool):
@@ -18,4 +17,5 @@ class Cell:
 
 # Marks that a cell is flagged
     def set_flag(self, bool):
-        self._flagged = bool
+        self._flagged = bool 
+
