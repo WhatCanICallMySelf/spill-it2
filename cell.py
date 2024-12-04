@@ -17,5 +17,5 @@ class Cell:
         self._has_bomb = bool
 
 # Marks that a cell is flagged
-    def set_flag(self):
-        self._flagged = True
+    def set_flag(self, bool):
+        self._flagged = bool
