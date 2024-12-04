@@ -3,15 +3,20 @@ from grid import Grid
 class Game: 
     def __init__(self):
         self._grid = Grid(10)
+        self._alive = True
 
     def start(self):
-        pass
+        while self._alive:
+            self.do_turn()
+
 
     def restart(self):
         pass
 
-    def gjør_trekk(self): 
-        trekk = input("type the letter o to open or the letter f to flagg followed by the coordinates of the cell u want to interact with. eksempel: v 2 4")
+    def do_turn(self): 
+        print("type the letter o to open or the letter f to flagg followed by the coordinates of the cell u want to interact with. example: v 2 4")
+        # todo
+        move_type, x, y = input("input: ")
 
-        if len(trekk) < 3: 
-            return ("det du skrev in følger ikke kravende prøv igjen")
+game = Game()
+Game.start()
