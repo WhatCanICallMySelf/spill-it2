@@ -72,7 +72,7 @@ class Game:
             elif cell.has_flag == True:
                 print(f"the coordinates you want to open is flagged. to clear this flag type c {x} {y}")
             else:
-                cell.is_cleared(True)
+                cell.set_cleared(True)
         elif move_type == "f": 
             print(f"placing a flag at {x}, {y}")
             cell.set_flag(True)
