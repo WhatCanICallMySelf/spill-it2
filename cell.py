@@ -10,6 +10,10 @@ class Cell:
         if self._flagged:
             return "[f]"
         return f"[{self._neighbour_bombs}]"
+
+    @property
+    def has_bomb(self):
+        return self._has_bomb
         
 # Turns a cell into a bomb        
     def set_bomb(self, bool):
