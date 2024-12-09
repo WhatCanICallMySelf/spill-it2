@@ -34,6 +34,7 @@ class Game:
         pass
 
     def do_turn(self): 
+        print(self._grid)
         print("-----------------------------------------------")
         print("enter comand and cell coordinates. comands: o-open, f-flag, r-remove flag. example: f 4 6")
         # finnes ikke enda legg til når den blir laget i grid
@@ -71,8 +72,7 @@ class Game:
             elif cell.has_flag == True:
                 print(f"the coordinates you want to open is flagged. to clear this flag type c {x} {y}")
             else:
-                # må legge til funksjon i cell for cell.open
-                self._grid.open(x,y)
+                cell.is_cleared(True)
         elif move_type == "f": 
             print(f"placing a flagg at {x}, {y}")
             cell.set_flag(True)
