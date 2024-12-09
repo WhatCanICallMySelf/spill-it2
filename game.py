@@ -68,6 +68,8 @@ class Game:
             if cell.has_bomb == True:
                 print("BOOOOOM")
                 self._alive = False
+            elif cell.flagged == True:
+                print(f"the coordinates you want to open is flagged. to clear this flag type c {x} {y}")
             else:
                 # må legge til funksjon i cell for cell.open
                 self._grid.open(x,y)
