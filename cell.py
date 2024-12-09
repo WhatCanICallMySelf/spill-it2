@@ -1,5 +1,20 @@
 #defines class cell
 class Cell:
+    """
+Definerer klassen cell
+
+self._neighbour = int
+    Teller hvor mange bomber det er rundt cellen
+
+self._has_bomb = boolean
+    Ser om den aktuelle cellen er en bombe
+
+self._flagged = boolean
+    Markerer at en celle er en bombe, uten å åpne den
+
+set_bomb
+"""
+
     def __init__(self):
         self._neighbour_bombs = 0
         self._has_bomb = False
@@ -19,3 +34,14 @@ class Cell:
     def set_flag(self, bool):
         self._flagged = bool 
 
+# Returnerer verdien til self._has_bomb
+    def has_bomb(self):
+        return self._has_bomb
+        
+# Returnerer verdien til self._flagged
+    def has_flag(self):
+        return self._flagged
+    
+# Returnerer hvor mange av de omringende cellene som er bomber
+    def neighbours(self):
+        return self._neighbour_bombs
