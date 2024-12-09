@@ -12,7 +12,7 @@ GRID_SIZE = 10
 
     # TODO:
     # lag en function help som skriver ut regler for spillet og lovlige kommandoer
-    # legg til en ny kommando q for quit 
+    # legg til en ny kommando q for quit
     # bytte om slik at alle komentarer og printer er på engelsk
     # senere:
     # inne i open comandoen må jeg sjekke om cellen allerede er revealed etter at det har blitt lagt inn en funksjon for det i cell.py
@@ -68,7 +68,7 @@ class Game:
             if cell.has_bomb == True:
                 print("BOOOOOM")
                 self._alive = False
-            elif cell.flagged == True:
+            elif cell.has_flag == True:
                 print(f"the coordinates you want to open is flagged. to clear this flag type c {x} {y}")
             else:
                 # må legge til funksjon i cell for cell.open
