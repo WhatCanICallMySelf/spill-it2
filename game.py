@@ -74,7 +74,7 @@ class Game:
             else:
                 cell.is_cleared(True)
         elif move_type == "f": 
-            print(f"placing a flagg at {x}, {y}")
+            print(f"placing a flag at {x}, {y}")
             cell.set_flag(True)
         elif move_type == "r":
             print(f"removing a flagg at {x}, {y}")
@@ -83,9 +83,9 @@ class Game:
             print("feil komando, skriv o for åpne og f for flagg")
         
         # har vi vunnet nå?
-        if self._grid.victory() == True:
-            print("YOU WIN")
-            self._alive = False
+        #if self._grid.victory() == True:
+        #    print("YOU WIN")
+        #    self._alive = False
 
      
 

@@ -8,9 +8,11 @@ class Cell:
 
 # self string for objects in class Cell
     def __str__(self):
-        if self._flagged:
+        if self._is_cleared:
+            return f"[{self._neighbour_bombs}]"
+        if self._has_flag:
             return "[f]"
-        return f"[{self._neighbour_bombs}]"
+        return "[ ]"
 
     @property
     def has_bomb(self):
