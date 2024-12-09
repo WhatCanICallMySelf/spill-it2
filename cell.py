@@ -8,6 +8,8 @@ class Cell:
 
 # self string for objects in class Cell
     def __str__(self):
+        #if self._has_bomb:
+        #    return "[B]"
         if self._is_cleared:
             return f"[{self._neighbour_bombs}]"
         if self._has_flag:

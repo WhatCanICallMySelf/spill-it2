@@ -1,6 +1,9 @@
+from random import randint
+
 from grid import Grid
 
 GRID_SIZE = 10
+BOMB_COUNT = 20
 
 
     # Game class needs four functions to 
@@ -24,6 +27,7 @@ class Game:
     def __init__(self):
         self._grid = Grid(GRID_SIZE)
         self._alive = True
+        self._generated_bombs = False
 
     def start(self):
         while self._alive:
@@ -33,7 +37,24 @@ class Game:
     def restart(self):
         pass
 
+    def randomize_bombs(self, bombs: int):
+        if bombs >= GRID_SIZE**2:
+            raise ValueError("Bombs must be less than amount of cells.")
+        i = 0
+        while i < bombs:
+            x = randint(0, GRID_SIZE - 1)
+            y = randint(0, GRID_SIZE - 1)
+            cell = self._grid.get_cell(x, y)
+            if cell.has_bomb == True or cell.is_cleared == True:
+                continue
+            cell.set_bomb(True)
+            i += 1
+            
     def do_turn(self): 
+        if not self._generated_bombs:
+            self._generated_bombs = True
+            self.randomize_bombs(BOMB_COUNT)
+
         print(self._grid)
         print("-----------------------------------------------")
         print("enter comand and cell coordinates. comands: o-open, f-flag, r-remove flag. example: f 4 6")
@@ -43,7 +64,7 @@ class Game:
         x = None
         y = None
         try:
-            move_type, x_str, y_str = input("input: ").split()
+            move_type, y_str, x_str = input("input: ").split()
         except ValueError:
             print("feil format, prøv igjen")
             return
