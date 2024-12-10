@@ -15,12 +15,13 @@ BOMB_COUNT = 20
 
     # TODO:
     # lag en function help som skriver ut regler for spillet og lovlige kommandoer
-    # legg til en ny kommando q for quit
-    # bytte om slik at alle komentarer og printer er på engelsk
+    # legg til en ny kommando q for quit 
+    # (for å løse de over må jeg ha en variabel for inputten slik at jeg kan sjekke om det første elementet enten er h eller q hvis ikke fortsett til splitingen)
     # senere:
     # inne i open comandoen må jeg sjekke om cellen allerede er revealed etter at det har blitt lagt inn en funksjon for det i cell.py
     # start timer når man gjør game start 
     # vise hvor mye tid per trekk og når man er ferdig med runden   
+
 
 
 class Game: 
@@ -58,8 +59,6 @@ class Game:
         print(self._grid)
         print("-----------------------------------------------")
         print("enter comand and cell coordinates. comands: o-open, f-flag, r-remove flag. example: f 4 6")
-        # finnes ikke enda legg til når den blir laget i grid
-        # self._grid.show()
         move_type = None
         x = None
         y = None
@@ -86,20 +85,25 @@ class Game:
 
         if move_type == "o": 
             print(f"opening cell {x}, {y}")
-            # hadde vært fint å ha en function i cell for å sjekke has_bomb
             if cell.has_bomb == True:
                 print("BOOOOOM")
                 self._alive = False
             elif cell.has_flag == True:
-                print(f"the coordinates you want to open is flagged. to clear this flag type c {x} {y}")
+                print(f"the coordinates you want to open is flagged. to clear this flag type r {x} {y}")
             else:
                 cell.set_cleared(True)
         elif move_type == "f": 
-            print(f"placing a flag at {x}, {y}")
-            cell.set_flag(True)
+            if cell._is_cleared == True:
+                print(f"the coordinates you want to flag is alredy open, so there is no need to flag this cell.")
+            else:
+                print(f"placing a flag at {x}, {y}")
+                cell.set_flag(True)
         elif move_type == "r":
-            print(f"removing a flagg at {x}, {y}")
-            cell.set_flag(False)
+            if cell.has_flag == True:
+                print(f"removing a flagg at {x}, {y}")
+                cell.set_flag(False)
+            else:
+                print(f"the coordinates you want clear does not have a flag")
         else: 
             print("feil komando, skriv o for åpne og f for flagg")
         
