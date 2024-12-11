@@ -49,11 +49,27 @@ class Game:
                 continue
             cell.set_bomb(True)
             i += 1
-            
+
+    def set_neighbor_bombs(self):
+        for x in range(GRID_SIZE):
+            for y in range(GRID_SIZE):
+                cell = self._grid.get_cell(x,y)
+                for dx in range(-1, 2):
+                    for dy in range(-1, 2):
+                        if dx == 0 and dy == 0:
+                            continue
+                        nx, ny = x + dx, y + dy
+                        neighbor = self._grid.get_cell(nx, ny)
+                        if neighbor is not None:
+                            if neighbor.has_bomb == True:
+                                cell.set_neighbor_bombs(cell.neighbor_bombs + 1)
+                        
+
     def do_turn(self): 
         if not self._generated_bombs:
             self._generated_bombs = True
             self.randomize_bombs(BOMB_COUNT)
+            self.set_neighbor_bombs()
 
         print(self._grid)
         print("-----------------------------------------------")
@@ -93,7 +109,7 @@ class Game:
             elif cell.has_flag == True:
                 print(f"the coordinates you want to open is flagged. to clear this flag type c {x} {y}")
             else:
-                cell.set_cleared(True)
+                self.clear_cell(cell, x -1, y -1)
         elif move_type == "f": 
             print(f"placing a flag at {x}, {y}")
             cell.set_flag(True)
