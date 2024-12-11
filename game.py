@@ -2,6 +2,9 @@ from random import randint
 
 from grid import Grid
 
+import time
+
+
 GRID_SIZE = 10
 BOMB_COUNT = 20
 
@@ -23,6 +26,8 @@ class Game:
         self._grid = Grid(GRID_SIZE)
         self._alive = True
         self._generated_bombs = False
+        self._start_time = time.time()
+
 
     def start(self):
         while self._alive:
@@ -52,6 +57,10 @@ class Game:
         print("Type h for information on how to play the game")
         print("If you want to quit enter q")
         print("Type your move?")
+
+        current_time = time.time()
+
+        print(f"Your time: {round(current_time - self._start_time, 1)}")
 
         move_type = None
         x = None
