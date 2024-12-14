@@ -107,12 +107,10 @@ class Game:
         else:
 
             try:
-                move_type, y_str, x_str = command.split()
+                move_type, x_str, y_str = command.split()
             except ValueError:
                 print("feil format, prøv igjen")
                 return
-        
-# testing: print(f"you typed: {move_type}, for the coordinates ({x}, {y})")
         
             try:
                 x = int(x_str)
@@ -121,17 +119,17 @@ class Game:
                 print("du må skrive to tall etter komandoen. foreksempel o 1 2 eller f 3 4")
                 return
             # grid numbers are one lower in x and y
-            cell = self._grid.get_cell(x -1, y -1)
+            cell = self._grid.get_cell(x, y)
 
             if cell == None:
-                print(f"your coordinates are outside of the grid. choose a number 1-{GRID_SIZE}")
+                print(f"your coordinates are outside of the grid. choose a number 0-{GRID_SIZE - 1}")
                 return
 
             if move_type == "o":
                 print(f"opening cell {x}, {y}")
                 if not self._generated_bombs:
                     self._generated_bombs = True
-                    self.randomize_bombs(BOMB_COUNT, x - 1, y -1)
+                    self.randomize_bombs(BOMB_COUNT, x, y)
                     self.set_neighbor_bombs()
 
                 if cell.has_bomb == True:
@@ -140,7 +138,7 @@ class Game:
                 elif cell.has_flag == True:
                     print(f"the coordinates you want to open is flagged. to clear this flag type r {x} {y}")
                 else:
-                    self.clear_cell(cell, x - 1, y - 1)
+                    self.clear_cell(cell, x, y)
             elif move_type == "f":
                 if cell._is_cleared == True:
                     print(f"the coordinates you want to flag is alredy open, so there is no need to flag this cell.")
