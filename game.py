@@ -32,13 +32,30 @@ class Game:
             self.do_turn()
         print("GAME OVER")
 
-    def randomize_bombs(self, bombs: int):
+    def clear_cell(self, cell, x:int, y:int):
+        if cell.is_cleared:
+            return
+
+        cell.set_cleared(True)
+        for dx in range(-1, 2):
+            for dy in range(-1, 2):
+                if dx == 0 and dy == 0:
+                    continue
+                nx, ny = x + dx, y + dy
+                neighbor = self._grid.get_cell(nx, ny)
+                if neighbor is not None:
+                    if not neighbor.has_bomb and cell.neighbor_bombs == 0:
+                        self.clear_cell(neighbor, nx, ny)
+
+    def randomize_bombs(self, bombs: int, safe_x, safe_y):
         if bombs >= GRID_SIZE**2:
             raise ValueError("Bombs must be less than amount of cells.")
         i = 0
         while i < bombs:
             x = randint(0, GRID_SIZE - 1)
             y = randint(0, GRID_SIZE - 1)
+            if x in {safe_x, safe_x + 1, safe_x - 1} and y in {safe_y, safe_y + 1, safe_y - 1}:
+                continue
             cell = self._grid.get_cell(x, y)
             if cell.has_bomb == True or cell.is_cleared == True:
                 continue
@@ -61,11 +78,6 @@ class Game:
 
 
     def do_turn(self): 
-        if not self._generated_bombs:
-            self._generated_bombs = True
-            self.randomize_bombs(BOMB_COUNT)
-            self.set_neighbor_bombs()
-
         print(self._grid)
         print("-----------------------------------------------")
         print("Type h for information on how to play the game")
@@ -117,6 +129,11 @@ class Game:
 
             if move_type == "o":
                 print(f"opening cell {x}, {y}")
+                if not self._generated_bombs:
+                    self._generated_bombs = True
+                    self.randomize_bombs(BOMB_COUNT, x - 1, y -1)
+                    self.set_neighbor_bombs()
+
                 if cell.has_bomb == True:
                     print("BOOOOOM")
                     self._alive = False
