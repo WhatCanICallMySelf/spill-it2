@@ -26,17 +26,18 @@ class Game:
         self._alive = True
         self._generated_bombs = False
         self._start_time = time.time()
+        self._cleared_cells = 0
 
     def start(self):
         while self._alive:
             self.do_turn()
-        print("GAME OVER")
 
     def clear_cell(self, cell, x:int, y:int):
         if cell.is_cleared:
             return
 
         cell.set_cleared(True)
+        self._cleared_cells += 1
         for dx in range(-1, 2):
             for dy in range(-1, 2):
                 if dx == 0 and dy == 0:
@@ -132,13 +133,18 @@ class Game:
                     self.randomize_bombs(BOMB_COUNT, x, y)
                     self.set_neighbor_bombs()
 
-                if cell.has_bomb == True:
-                    print("BOOOOOM")
-                    self._alive = False
-                elif cell.has_flag == True:
+                if cell.has_flag == True:
                     print(f"the coordinates you want to open is flagged. to clear this flag type r {x} {y}")
+                elif cell.has_bomb == True:
+                    print("BOOOOOM")
+                    print("GAME OVER")
+                    self._alive = False
                 else:
                     self.clear_cell(cell, x, y)
+                    
+                if self._cleared_cells == GRID_SIZE ** 2 - BOMB_COUNT:
+                    print("YOU WIN")
+                    self._alive = False
             elif move_type == "f":
                 if cell._is_cleared == True:
                     print(f"the coordinates you want to flag is alredy open, so there is no need to flag this cell.")
@@ -154,10 +160,6 @@ class Game:
             else:
                 print("feil komando, skriv o for åpne og f for flagg")
 
-        # har vi vunnet nå?
-        #if self._grid.victory() == True:
-        #    print("YOU WIN")
-        #    self._alive = False
 
      
 
