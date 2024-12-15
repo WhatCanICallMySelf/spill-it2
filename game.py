@@ -4,21 +4,13 @@ from grid import Grid
 
 import time
 
-
+# definerer størrelse på rutenettet og antall bomber
 GRID_SIZE = 10
 BOMB_COUNT = 20
 
-
-    # Game class needs four functions to
-        # check if you have won: grid.victory()
-        # open a cell and expand the cells without neighbours: grid.open()
-
-    # TODO:
-    # senere:
-    # inne i open comandoen må jeg sjekke om cellen allerede er revealed etter at det har blitt lagt inn en funksjon for det i cell.py
-    # start timer når man gjør game start 
-    # vise hvor mye tid per trekk og når man er ferdig med runden   
-
+# Game klassen håndterer hovedlogikken for spillet
+# den starter spillet, håndterer spilleren sinde trekk,
+# oppretter bomber, oppdaterer rutenettet og sjekker om spillet er over
 
 class Game:
     def __init__(self):
@@ -48,6 +40,7 @@ class Game:
                         self.clear_cell(neighbor, nx, ny)
 
     def randomize_bombs(self, bombs: int, safe_x, safe_y):
+        # plasserer bomber tilfeldig på rutenettet, unntatt i de cellene rundt den cellen som blir åpnet først
         if bombs >= GRID_SIZE**2:
             raise ValueError("Bombs must be less than amount of cells.")
         i = 0
@@ -59,7 +52,8 @@ class Game:
             cell = self._grid.get_cell(x, y)
             if cell.has_bomb == True or cell.is_cleared == True:
                 continue
-            cell.set_bomb(True)
+            #plasserer bomben og øker telleren
+            cell.set_bomb(True) 
             i += 1
 
     def set_neighbor_bombs(self):
@@ -76,7 +70,7 @@ class Game:
                             if neighbor.has_bomb == True:
                                 cell.set_neighbor_bombs(cell.neighbor_bombs + 1)
 
-
+    # håndterer trekk som spilleren gjør
     def do_turn(self): 
         print(self._grid)
         print("-----------------------------------------------")
@@ -84,8 +78,8 @@ class Game:
         print("If you want to quit enter q")
         print("Type your move?")
 
+        # finner total tiden på runden til spilleren 
         current_time = time.time()
-
         print(f"Your time: {round(current_time - self._start_time, 1)}")
 
         move_type = None
@@ -106,12 +100,14 @@ class Game:
             self._alive = False
         else:
 
+            #testing for feil formatering av input
             try:
                 move_type, x_str, y_str = command.split()
             except ValueError:
                 print("feil format, prøv igjen")
                 return
         
+            #testing for feil formatering av kordinater 
             try:
                 x = int(x_str)
                 y = int(y_str)
@@ -121,17 +117,19 @@ class Game:
             # grid numbers are one lower in x and y
             cell = self._grid.get_cell(x, y)
 
+            # sjekker om koordinatene er utenfor rutenetet 
             if cell == None:
                 print(f"your coordinates are outside of the grid. choose a number 0-{GRID_SIZE - 1}")
                 return
 
+            #gjør trekket utifra inputen 
             if move_type == "o":
+                # åpning av cellen 
                 print(f"opening cell {x}, {y}")
                 if not self._generated_bombs:
                     self._generated_bombs = True
                     self.randomize_bombs(BOMB_COUNT, x, y)
                     self.set_neighbor_bombs()
-
                 if cell.has_bomb == True:
                     print("BOOOOOM")
                     self._alive = False
@@ -140,12 +138,14 @@ class Game:
                 else:
                     self.clear_cell(cell, x, y)
             elif move_type == "f":
+                # plassering av flagg
                 if cell._is_cleared == True:
                     print(f"the coordinates you want to flag is alredy open, so there is no need to flag this cell.")
                 else:
                     print(f"placing a flag at {x}, {y}")
                     cell.set_flag(True)
             elif move_type == "r":
+                # fjerning av flagg
                 if cell.has_flag == True:
                     print(f"removing a flagg at {x}, {y}")
                     cell.set_flag(False)
