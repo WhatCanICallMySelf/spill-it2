@@ -13,6 +13,9 @@ BOMB_COUNT = 20
 
 class Game:
     def __init__(self):
+        """
+        Initializes a Game object.
+        """
         self._grid = Grid(GRID_SIZE)
         self._alive = True
         self._generated_bombs = False
@@ -20,11 +23,18 @@ class Game:
         self._cleared_cells = 0
 
     def play(self):
+        """Main game loop that continues until the game ends."""
         while self._alive:
             self.do_turn()
 
-    # Clear cell and expand cleared cells if cells have 0 bombs around them
     def clear_cell(self, cell, x: int, y: int):
+        """
+        Clears a cell. If the cell has 0 neighboring bombs, it recursively clears neighboring cells.
+
+        :param cell: The cell to be cleared.
+        :param x: The x-coordinate of the cell.
+        :param y: The y-coordinate of the cell.
+        """
         if cell.is_cleared:
             return
 
@@ -45,7 +55,13 @@ class Game:
                         self.clear_cell(neighbor, nx, ny)
 
     def randomize_bombs(self, bombs_to_place: int, safe_x: int, safe_y: int):
-        # Places bombs randomly on the grid, except a 3x3 grid around the safe x and y
+        """
+        Randomly places bombs on the grid, avoiding a 3x3 area around the specified safe coordinates.
+
+        :param bombs_to_place: The number of bombs to randomly place.
+        :param safe_x: The center x of the 3x3 safe box.
+        :param safe_y: The center y of the 3x3 safe box.
+        """
         if bombs_to_place >= GRID_SIZE ** 2:
             raise ValueError("Bombs to place must be less than amount of cells.")
         placed_bombs = 0
@@ -62,6 +78,7 @@ class Game:
             placed_bombs += 1
 
     def set_neighbor_bombs(self):
+        """Sets the bomb counts for all cells based on their neighboring bombs."""
         for x in range(GRID_SIZE):
             for y in range(GRID_SIZE):
                 cell = self._grid.get_cell(x, y)
@@ -78,8 +95,8 @@ class Game:
                             if neighbor.has_bomb:
                                 cell.set_neighbor_bombs(cell.neighbor_bombs + 1)
 
-    # håndterer trekk som spilleren gjør
     def do_turn(self):
+        """Handles a player's turn, processes input commands, and updates the game state accordingly."""
         print(self._grid)
         print("-----------------------------------------------")
         print("Type h for information on how to play the game")
