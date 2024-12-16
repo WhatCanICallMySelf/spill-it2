@@ -50,6 +50,12 @@ classDiagram
         restart()
         wipe_grid()
     }
+    
+    class Game {
+        gjør_trekk()
+        start()
+        restart()
+    }
 ```
 ## Arbeidsoppgaver 
 - Alexander

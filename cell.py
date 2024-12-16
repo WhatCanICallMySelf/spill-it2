@@ -1,47 +1,47 @@
-#defines class cell
+# defines class cell
 class Cell:
-    """
-Definerer klassen cell
-
-self._neighbour = int
-    Teller hvor mange bomber det er rundt cellen
-
-self._has_bomb = boolean
-    Ser om den aktuelle cellen er en bombe
-
-self._flagged = boolean
-    Markerer at en celle er en bombe, uten å åpne den
-
-set_bomb
-"""
-
     def __init__(self):
         self._neighbour_bombs = 0
         self._has_bomb = False
-        self._flagged = False
+        self._has_flag = False
+        self._is_cleared = False
 
-# self string for objects in class Cell
+    # self string for objects in class Cell
     def __str__(self):
-        if self._flagged:
+        # if self._has_bomb:
+        #    return "\033[41m[B]\033[0m"
+        if self._is_cleared:
+            return f"[{self._neighbour_bombs}]"
+        if self._has_flag:
             return "[f]"
-        return f"[{self._neighbour_bombs}]"
-        
-# Turns a cell into a bomb        
-    def set_bomb(self, bool):
-        self._has_bomb = bool
+        return "[ ]"
 
-# Marks that a cell is flagged
-    def set_flag(self, bool):
-        self._flagged = bool 
-
-# Returnerer verdien til self._has_bomb
+    @property
     def has_bomb(self):
         return self._has_bomb
-        
-# Returnerer verdien til self._flagged
+
+    @property
     def has_flag(self):
-        return self._flagged
-    
-# Returnerer hvor mange av de omringende cellene som er bomber
-    def neighbours(self):
+        return self._has_flag
+
+    @property
+    def is_cleared(self):
+        return self._is_cleared
+
+    @property
+    def neighbor_bombs(self):
         return self._neighbour_bombs
+
+    # Turns a cell into a bomb
+    def set_bomb(self, has_bomb):
+        self._has_bomb = has_bomb
+
+    # Marks that a cell is flagged
+    def set_flag(self, has_flag):
+        self._has_flag = has_flag
+
+    def set_cleared(self, is_cleared: bool):
+        self._is_cleared = is_cleared
+
+    def set_neighbor_bombs(self, amount: int):
+        self._neighbour_bombs = amount
