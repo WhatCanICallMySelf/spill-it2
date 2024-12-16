@@ -191,5 +191,6 @@ class Game:
                 print("feil komando, skriv o for åpne og f for flagg")
 
 
-game = Game()
-game.play()
+if __name__ == "__main__":
+    game = Game()
+    game.play()

@@ -1,7 +1,7 @@
 from cell import Cell
 
 
-def test_initial_state():
+def test_initialization():
     cell = Cell()
     assert not cell.has_bomb
     assert not cell.has_flag
